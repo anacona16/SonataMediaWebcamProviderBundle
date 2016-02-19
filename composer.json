@@ -2,7 +2,7 @@
     "name": "anacona16/sonata-media-webcam-provider-bundle",
     "type": "symfony-bundle",
     "description": "Enable webcam provider for Sonata Media Bundle",
-    "keywords": ["image", "crop"],
+    "keywords": ["image", "webcam", "SonataMediaBundle"],
     "homepage": "https://github.com/anacona16/SonataMediaWebcamProviderBundle",
     "license": "MIT",
     "authors": [
