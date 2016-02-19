@@ -79,14 +79,6 @@ class WebcamProvider extends ImageProvider
                     'style' => 'display: none; visibility: hidden;',
                 ),
             ))
-            ->add('cameras', 'choice', array(
-                'label' => 'form.label.cameras',
-                'mapped' => false,
-                'translation_domain' => 'SonataMediaWebcamProviderBundle',
-                'attr' => array(
-                    'class' => 'anacona16-sonata-media-webcam-provider-cameras',
-                ),
-            ))
         ;
     }
 

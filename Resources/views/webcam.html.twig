@@ -23,8 +23,7 @@
                 showMicrophoneErrors: false,
                 onError: onError,
                 disableHardwareAcceleration: 1,
-                showDebug: {% if config.show_debug %}true{% else %}false{% endif %},
-                onWebcamReady: onWebcamReady
+                showDebug: {% if config.show_debug %}true{% else %}false{% endif %}
             });
 
             $('select.anacona16-sonata-media-webcam-provider-cameras').on('change', function () {
@@ -45,16 +44,6 @@
             $('img#anacona16-sonata-media-webcam-provider-image').attr("src", "data:image/png;base64," + b64);
 
             $('.form-actions').removeClass('hide');
-        }
-
-        function onWebcamReady(cameraNames, camera, microphoneNames, microphone, volume) {
-            $.each(cameraNames, function (index, text) {
-                $('.anacona16-sonata-media-webcam-provider-cameras').append($('<option></option>').val(index).html(text))
-            });
-
-            $('.anacona16-sonata-media-webcam-provider-cameras').val(camera);
-
-            Admin.setup_select2();
         }
     </script>
 {% endspaceless %}
