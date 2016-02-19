@@ -52,7 +52,7 @@ class WebcamProvider extends ImageProvider
     {
         $content = $media->getBinaryContent();
 
-        $path = tempnam(sys_get_temp_dir(), $this->generateMediaUniqId($media)) . '.jpg';
+        $path = tempnam(sys_get_temp_dir(), $this->generateMediaUniqId($media)).'.jpg';
         $fileObject = new \SplFileObject($path, 'w');
         $fileObject->fwrite(base64_decode($content));
 
