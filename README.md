@@ -73,8 +73,8 @@ php app/console assets:install --symlink
 You need add the assets in your layout e.g. SonataAdminBundle::standard_layout.html.twig
 
 ```html
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script type="text/javascript" src="{{ asset('bundles/sonatamediawebcamprovider/scriptcam/swfobject.min.js') }}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script
 <script type="text/javascript" src="{{ asset('bundles/sonatamediawebcamprovider/scriptcam/scriptcam.min.js') }}"></script>
 ```
 
