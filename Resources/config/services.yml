@@ -1,0 +1,10 @@
+services:
+    sonata.media.provider.webcam:
+        class: Anacona16\Bundle\SonataMediaWebcamProviderBundle\SonataMedia\Provider\WebcamProvider
+        parent: sonata.media.provider.image
+        calls:
+            - [setName, ['sonata.media.provider.webcam']]
+            - [setTwig, ['@twig']]
+            - [setBundleConfiguration, ['%sonata_media_webcam_provider%']]
+        tags:
+            - { name: sonata.media.provider }

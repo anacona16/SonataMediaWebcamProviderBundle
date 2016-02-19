@@ -1,0 +1,5 @@
+sonata.media.provider.webcam: Cámara web
+sonata.media.provider.webcam.description: Añadir una imagen desde la cámara web
+
+form.label.cameras: Cáramas disponibles
+form.button.capture: Capturar

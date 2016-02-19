@@ -1,0 +1,5 @@
+sonata.media.provider.webcam: Webcam
+sonata.media.provider.webcam.description: Add an image from your webcam
+
+form.label.cameras: Available webcams
+form.button.capture: Capture
