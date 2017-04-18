@@ -4,7 +4,7 @@ services:
         parent: sonata.media.provider.image
         calls:
             - [setName, ['sonata.media.provider.webcam']]
-            - [setTwig, ['@twig']]
+            - [setContainer, ['@service_container']]
             - [setBundleConfiguration, ['%sonata_media_webcam_provider%']]
         tags:
             - { name: sonata.media.provider }

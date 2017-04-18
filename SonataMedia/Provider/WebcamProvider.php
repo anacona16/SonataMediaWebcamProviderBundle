@@ -6,15 +6,16 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Model\Metadata;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\MediaBundle\Provider\ImageProvider;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 class WebcamProvider extends ImageProvider
 {
     /**
-     * @var \Twig_Environment
+     * @var Container
      */
-    private $twig;
+    private $container;
 
     /**
      * @var array
@@ -22,11 +23,11 @@ class WebcamProvider extends ImageProvider
     private $bundleConfiguration;
 
     /**
-     * @param \Twig_Environment $twig
+     * @param Container $container
      */
-    public function setTwig($twig)
+    public function setContainer($container)
     {
-        $this->twig = $twig;
+        $this->container = $container;
     }
 
     /**
@@ -73,7 +74,7 @@ class WebcamProvider extends ImageProvider
                     new NotNull(),
                 ),
                 'label' => false,
-                'help' => $this->twig->render('SonataMediaWebcamProviderBundle::webcam.html.twig', array('config' => $this->bundleConfiguration)),
+                'help' => $this->container->get('twig')->render('SonataMediaWebcamProviderBundle::webcam.html.twig', array('config' => $this->bundleConfiguration)),
                 'attr' => array(
                     'class' => 'anacona16-sonata-media-webcam-provider',
                     'style' => 'display: none; visibility: hidden;',
