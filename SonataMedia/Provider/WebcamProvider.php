@@ -82,6 +82,9 @@ class WebcamProvider extends ImageProvider
         ;
     }
 
+    /**
+     * @param FormMapper $formMapper
+     */
     public function buildEditForm(FormMapper $formMapper)
     {
         parent::buildEditForm($formMapper);
