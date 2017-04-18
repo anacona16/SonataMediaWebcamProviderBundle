@@ -5,6 +5,5 @@ services:
         calls:
             - [setName, ['sonata.media.provider.webcam']]
             - [setContainer, ['@service_container']]
-            - [setBundleConfiguration, ['%sonata_media_webcam_provider%']]
         tags:
             - { name: sonata.media.provider }

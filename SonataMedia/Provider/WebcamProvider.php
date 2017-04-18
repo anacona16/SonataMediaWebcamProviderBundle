@@ -7,6 +7,7 @@ use Sonata\CoreBundle\Model\Metadata;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\MediaBundle\Provider\ImageProvider;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -18,24 +19,11 @@ class WebcamProvider extends ImageProvider
     private $container;
 
     /**
-     * @var array
-     */
-    private $bundleConfiguration;
-
-    /**
      * @param Container $container
      */
     public function setContainer($container)
     {
         $this->container = $container;
-    }
-
-    /**
-     * @param array $bundleConfiguration
-     */
-    public function setBundleConfiguration($bundleConfiguration)
-    {
-        $this->bundleConfiguration = $bundleConfiguration;
     }
 
     /**
@@ -53,11 +41,14 @@ class WebcamProvider extends ImageProvider
     {
         $content = $media->getBinaryContent();
 
-        $path = tempnam(sys_get_temp_dir(), $this->generateMediaUniqId($media)).'.jpg';
-        $fileObject = new \SplFileObject($path, 'w');
-        $fileObject->fwrite(base64_decode($content));
+        $fileName = $this->generateMediaUniqId($media).'.jpg';
+        $filePath = sys_get_temp_dir();
+        $fileFullPath = $filePath.'/'.$fileName;
 
-        $media->setBinaryContent($path);
+        $fs = new Filesystem();
+        $fs->dumpFile($fileFullPath, $content);
+
+        $media->setBinaryContent($fileFullPath);
 
         parent::fixBinaryContent($media);
     }
@@ -67,6 +58,8 @@ class WebcamProvider extends ImageProvider
      */
     public function buildCreateForm(FormMapper $formMapper)
     {
+        $bundleConfiguration = $this->container->getParameter('sonata_media_webcam_provider');
+
         $formMapper
             ->add('binaryContent', 'textarea', array(
                 'constraints' => array(
@@ -74,7 +67,9 @@ class WebcamProvider extends ImageProvider
                     new NotNull(),
                 ),
                 'label' => false,
-                'help' => $this->container->get('twig')->render('SonataMediaWebcamProviderBundle::webcam.html.twig', array('config' => $this->bundleConfiguration)),
+                'help' => $this->container->get('twig')->render('SonataMediaWebcamProviderBundle::webcam.html.twig', array(
+                    'config' => $bundleConfiguration,
+                )),
                 'attr' => array(
                     'class' => 'anacona16-sonata-media-webcam-provider',
                     'style' => 'display: none; visibility: hidden;',
