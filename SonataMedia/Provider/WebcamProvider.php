@@ -32,8 +32,8 @@ class WebcamProvider extends ImageProvider
     public function __construct($name, Filesystem $filesystem, CDNInterface $cdn, GeneratorInterface $pathGenerator, ThumbnailInterface $thumbnail, array $allowedExtensions, array $allowedMimeTypes, ImagineInterface $adapter, MetadataBuilderInterface $metadata = null)
     {
         $name = 'sonata.media.provider.webcam';
+
         $allowedMimeTypes[] = 'text/plain';
-        $allowedMimeTypes[] = 'application/octet-stream';
 
         parent::__construct($name, $filesystem, $cdn, $pathGenerator, $thumbnail, $allowedExtensions, $allowedMimeTypes, $adapter, $metadata);
     }
