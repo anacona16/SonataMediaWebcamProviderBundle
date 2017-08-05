@@ -2,7 +2,7 @@ SonataMediaWebcamProvider
 =========================
 
 SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you capture a image from your webcam,
-this bundle use [ScriptCam](http://www.scriptcam.com/)
+this bundle use video HTML5 tag to capture image from webcam.
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7/mini.png)](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7)
 
@@ -12,15 +12,15 @@ this bundle use [ScriptCam](http://www.scriptcam.com/)
 
 **Requirements**
 
-  * Symfony 2.3+ applications.
+  * Symfony 2.8+ applications.
   * SonataMediaBundle.
   
 Please install each bundle following their instructions.
   
 **How it works?**
 
-This bundle replaces the binaryContent field, adds the ScriptCam script and fill the new binaryContent field.
-ScriptCam image using base64 encoding, then a temporary file is created, after ImageProvider uses and processes.
+This bundle replaces the binaryContent field.
+Video HTML5 element uses canvas element to get an image using base64 encoding, then a temporary file is created, after, ImageProvider uses and processes it.
 
 Installation
 ------------
@@ -75,8 +75,7 @@ php app/console assets:install --symlink
 You need add the assets in your layout e.g. SonataAdminBundle::standard_layout.html.twig
 
 ```html
-<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-<script type="text/javascript" src="{{ asset('bundles/sonatamediawebcamprovider/scriptcam/scriptcam.min.js') }}"></script>
+<script src="{{ asset('bundles/sonatamediawebcamprovider/sonata-media-webcam-provider.js') }}"></script>
 ```
 
 That's it! Now everything is ready to use the Webcam provider.
@@ -95,19 +94,7 @@ sonata_media:
                 - sonata.media.provider.webcam
 ```
 
-Configure SonataMediaWebcamProviderBundle (optional)
-----------------------------------------------------
-
-You can change the width and height camera:
-
-```yaml
-# app/config/config.yml
-sonata_media_webcam_provider:
-    width: 640 # default: 320
-    height: 480 # default: 240
-```
-
-That's all, now you can capture a image from your webcam using SonataMediaBundle.
+That's all, now you can capture an image from your webcam using SonataMediaBundle.
 
 -----
 
