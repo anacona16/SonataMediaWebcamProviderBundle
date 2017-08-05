@@ -4,6 +4,8 @@ SonataMediaWebcamProvider
 SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you capture a image from your webcam,
 this bundle use [ScriptCam](http://www.scriptcam.com/)
 
+**If you're looking for a HTML5 version see the [master branch](https://github.com/anacona16/SonataMediaWebcamProviderBundle/tree/master)**
+
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7/mini.png)](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7)
 
 **Features**
@@ -107,7 +109,7 @@ sonata_media_webcam_provider:
     height: 480 # default: 240
 ```
 
-That's all, now you can capture a image from your webcam using SonataMediaBundle.
+That's all, now you can capture an image from your webcam using SonataMediaBundle.
 
 -----
 
