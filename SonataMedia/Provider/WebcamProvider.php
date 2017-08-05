@@ -2,12 +2,18 @@
 
 namespace Anacona16\Bundle\SonataMediaWebcamProviderBundle\SonataMedia\Provider;
 
+use Gaufrette\Filesystem;
+use Imagine\Image\ImagineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Model\Metadata;
+use Sonata\MediaBundle\CDN\CDNInterface;
+use Sonata\MediaBundle\Generator\GeneratorInterface;
+use Sonata\MediaBundle\Metadata\MetadataBuilderInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\MediaBundle\Provider\ImageProvider;
+use Sonata\MediaBundle\Thumbnail\ThumbnailInterface;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -17,6 +23,18 @@ class WebcamProvider extends ImageProvider
      * @var Container
      */
     private $container;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($name, Filesystem $filesystem, CDNInterface $cdn, GeneratorInterface $pathGenerator, ThumbnailInterface $thumbnail, array $allowedExtensions, array $allowedMimeTypes, ImagineInterface $adapter, MetadataBuilderInterface $metadata = null)
+    {
+        $name = 'sonata.media.provider.webcam';
+
+        $allowedMimeTypes[] = 'text/plain';
+
+        parent::__construct($name, $filesystem, $cdn, $pathGenerator, $thumbnail, $allowedExtensions, $allowedMimeTypes, $adapter, $metadata);
+    }
 
     /**
      * @param Container $container
@@ -45,8 +63,8 @@ class WebcamProvider extends ImageProvider
         $filePath = sys_get_temp_dir();
         $fileFullPath = $filePath.'/'.$fileName;
 
-        $fs = new Filesystem();
-        $fs->dumpFile($fileFullPath, $content);
+        $fs = new SymfonyFilesystem();
+        $fs->dumpFile($fileFullPath, base64_decode($content));
 
         $media->setBinaryContent($fileFullPath);
 

@@ -3,7 +3,6 @@ services:
         class: Anacona16\Bundle\SonataMediaWebcamProviderBundle\SonataMedia\Provider\WebcamProvider
         parent: sonata.media.provider.image
         calls:
-            - [setName, ['sonata.media.provider.webcam']]
             - [setContainer, ['@service_container']]
         tags:
             - { name: sonata.media.provider }
