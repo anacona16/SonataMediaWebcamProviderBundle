@@ -1,49 +1,10 @@
 <div class="row">
-    <div class="col-md-12">
-        <div class="table-responsive">
-            <div id="webcam"></div>
-            <hr>
-            <img src="" alt="" id="anacona16-sonata-media-webcam-provider-image" style="margin-bottom: 10px">
-            <button type="button" class="btn btn-info" onclick="base64_tofield_and_image()">{{ 'form.button.capture'|trans({}, 'SonataMediaWebcamProviderBundle') }}</button>
-        </div>
+    <div class="col-md-12 text-center">
+        <video id="anacona16-sonata-media-webcam-video" autoplay="autoplay" width="480" height="360"></video>
+        <canvas id="anacona16-sonata-media-webcam-canvas" style="display: none;" width="480" height="360"> </canvas>
+    </div>
+    <div class="col-md-12" style="margin-top: 10px;">
+        <button type="button" id="anacona16-sonata-media-webcam-snap" class="btn btn-default btn-lg"> <i class="fa fa-camera"></i> {{ 'form.button.capture'|trans({}, 'SonataMediaWebcamProviderBundle') }}</button>
+        <button type="button" id="anacona16-sonata-media-webcam-reset" class="btn btn-default btn-lg"> <i class="fa fa-camera"></i> {{ 'form.button.capture_again'|trans({}, 'SonataMediaWebcamProviderBundle') }}</button>
     </div>
 </div>
-
-<script type="text/javascript" src="{{ asset('bundles/sonatamediawebcamprovider/scriptcam/scriptcam.min.js') }}"></script>
-
-{% spaceless %}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.form-actions').addClass('hide');
-
-            $("#webcam").scriptcam({
-                width: {{ config.width }},
-                height: {{ config.height }},
-                path: '{{ asset('bundles/sonatamediawebcamprovider/scriptcam/') }}',
-                showMicrophoneErrors: false,
-                onError: onError,
-                disableHardwareAcceleration: 1,
-                showDebug: {% if config.show_debug %}true{% else %}false{% endif %}
-            });
-
-            $('select.anacona16-sonata-media-webcam-provider-cameras').on('change', function () {
-                $.scriptcam.changeCamera($(this).val());
-            });
-        });
-
-        function onError(errorId, errorMsg) {
-            $("#btn1").attr("disabled", true);
-            $("#btn2").attr("disabled", true);
-            alert(errorMsg);
-        }
-
-        function base64_tofield_and_image() {
-            var b64 = $.scriptcam.getFrameAsBase64();
-
-            $('textarea.anacona16-sonata-media-webcam-provider').val(b64);
-            $('img#anacona16-sonata-media-webcam-provider-image').attr("src", "data:image/png;base64," + b64);
-
-            $('.form-actions').removeClass('hide');
-        }
-    </script>
-{% endspaceless %}
