@@ -1,5 +1,4 @@
-// Put event listeners into place
-window.addEventListener("DOMContentLoaded", function () {
+function anacona16SonataMediaWebcamProvider () {
     // Grab elements, create settings, etc.
     var canvas = document.getElementById('anacona16-sonata-media-webcam-canvas');
     var context = canvas.getContext('2d');
@@ -39,15 +38,15 @@ window.addEventListener("DOMContentLoaded", function () {
     // Trigger photo take
     document.getElementById('anacona16-sonata-media-webcam-snap').addEventListener('click', function () {
         context.drawImage(video, 0, 0, 480, 360);
-        video.style.display = "none";
-        canvas.style.display = "block";
+        video.style.display = 'none';
+        canvas.style.display = 'block';
 
-        document.getElementsByClassName('anacona16-sonata-media-webcam-provider')[0].value = canvas.toDataURL("image/jpeg");
+        document.getElementsByClassName('anacona16-sonata-media-webcam-provider')[0].value = canvas.toDataURL('image/jpeg');
     });
 
     // Trigger photo take
     document.getElementById('anacona16-sonata-media-webcam-reset').addEventListener('click', function () {
-        video.style.display = "block";
-        canvas.style.display = "none";
+        video.style.display = 'block';
+        canvas.style.display = 'none';
     });
-}, false);
+}
