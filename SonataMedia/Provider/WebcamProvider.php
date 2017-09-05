@@ -81,6 +81,9 @@ class WebcamProvider extends ImageProvider
     protected function doTransform(MediaInterface $media)
     {
         $content = $media->getBinaryContent();
+        
+        // We use the sandard image provider to avoid errors or lost some process.
+        $media->setProviderName('sonata.media.provider.image');
 
         if (!$content instanceof UploadedFile) {
             $base64String =  preg_replace('#^data:image/[^;]+;base64,#', '', $content);
@@ -101,6 +104,6 @@ class WebcamProvider extends ImageProvider
             }
         }
 
-        return parent::doTransform($media);
+        parent::doTransform($media);
     }
 }
