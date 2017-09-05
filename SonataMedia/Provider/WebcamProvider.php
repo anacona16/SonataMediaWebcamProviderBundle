@@ -82,7 +82,7 @@ class WebcamProvider extends ImageProvider
     {
         $content = $media->getBinaryContent();
         
-        // We use the sandard image provider to avoid errors or lost some process.
+        // We use the standard image provider to avoid errors or lost some process.
         $media->setProviderName('sonata.media.provider.image');
 
         if (!$content instanceof UploadedFile) {
