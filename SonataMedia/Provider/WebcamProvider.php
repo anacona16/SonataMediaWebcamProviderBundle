@@ -86,15 +86,13 @@ class WebcamProvider extends ImageProvider
         $media->setProviderName('sonata.media.provider.image');
 
         if (!$content instanceof UploadedFile) {
-            $base64String =  preg_replace('#^data:image/[^;]+;base64,#', '', $content);
-
             $fileName = $this->generateMediaUniqId($media).'.jpg';
             $filePath = sys_get_temp_dir();
             $fileFullPath = $filePath.'/'.$fileName;
 
             try {
                 $fs = new SymfonyFilesystem();
-                $fs->dumpFile($fileFullPath, base64_decode($base64String));
+                $fs->dumpFile($fileFullPath, base64_decode($content));
 
                 $media->setBinaryContent($fileFullPath);
             } catch (\RuntimeException $e) {
