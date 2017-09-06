@@ -2,11 +2,7 @@
     <div class="col-md-12">
         <div id="anacona16-sonata-media-webcam-camera" data-shutter-ogg-url="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/shutter.ogg') }}" data-shutter-mp3-url="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/shutter.ogg') }}" data-jpeg-camera="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/jpeg_camera.swf') }}" data-no-canvas-photo="{{ asset('bundles/sonatamediawebcamprovider/no_canvas_photo.jpg') }}">
             <div class="anacona16-sonata-media-webcam-placeholder">
-                Your browser does not support camera access.<br>
-                We recommend
-                <a href="https://www.google.com/chrome/" target="_blank">Chrome</a>
-                &mdash; modern, secure, fast browser from Google.<br>
-                It's free.
+                {{ 'sonata.media.provider.webcam.placeholder'|trans({}, 'SonataMediaWebcamProviderBundle') }}
             </div>
         </div>
 
