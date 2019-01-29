@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -59,13 +60,19 @@ class WebcamProvider extends ImageProvider
      */
     public function buildCreateForm(FormMapper $formMapper)
     {
+        $templatePath = 'SonataMediaWebcamProviderBundle::webcam.html.twig';
+
+        if (Kernel::VERSION >= 3.4) {
+            $templatePath = '@SonataMediaWebcamProvider/webcam.html.twig';
+        }
+
         $formMapper->add('binaryContent', TextareaType::class, array(
             'constraints' => array(
                 new NotBlank(),
                 new NotNull(),
             ),
             'label' => false,
-            'help' => $this->container->get('twig')->render('SonataMediaWebcamProviderBundle::webcam.html.twig'),
+            'help' => $this->container->get('twig')->render($templatePath),
             'attr' => array(
                 'class' => 'anacona16-sonata-media-webcam-provider',
                 'style' => 'display: none; visibility: hidden;',
