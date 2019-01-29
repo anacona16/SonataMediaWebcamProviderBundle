@@ -88,7 +88,7 @@ them again if you already use them in your project. If you want to cut down on H
 then there is a concatenated version you can use.
 
 ```html
-<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera_with_dependencies.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/jpeg_camera_with_dependencies.min.js') }}" type="text/javascript"></script>
 ```
 
 If you want to use HTML5-only version you can load `jpeg_camera_no_flash.min.js`. There is no "with dependencies" version of this file, so you have to remember to also load Canvas-to-Blob. You don't need SWFObject for HTML5.
