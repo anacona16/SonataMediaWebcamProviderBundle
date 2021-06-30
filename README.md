@@ -33,7 +33,7 @@ in the [Composer documentation](https://getcomposer.org/doc/00-intro.md).
 
 ### Step 2: Enable the Bundle
 
-If you are using Symonfy Flex the bundle will be enabled automatically, if not enable the bundle by adding the 
+If you are using Symfony Flex the bundle will be enabled automatically, if not enable the bundle by adding the 
 following line in the `app/AppKernel.php` file of your Symfony application:
 
 ```php
