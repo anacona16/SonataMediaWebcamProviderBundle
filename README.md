@@ -5,7 +5,7 @@ SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you c
 
 **Requirements**
 
-  * Symfony 2.8+ applications.
+  * Symfony 3.4+ applications.
   * SonataMediaBundle.
   
 Please install each bundle following their instructions.
