@@ -14,7 +14,7 @@ Please install each bundle following their instructions.
 
 This bundle replaces the binaryContent field.
 Video HTML5 element uses canvas element to get an image using base64 encoding, then a temporary file is created,
-the ImageProvider uses and processes it.
+then the Sonata ImageProvider class uses and processes it.
 
 Installation
 ------------
