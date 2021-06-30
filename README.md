@@ -4,8 +4,6 @@ SonataMediaWebcamProvider
 SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you capture a image from your webcam,
 this bundle use [JpegCamera](https://github.com/amw/jpeg_camera) library.
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7/mini.png)](https://insight.sensiolabs.com/projects/5f212567-9f44-41b2-9e1f-115544c5f0e7)
-
 **Features**
 
   * Integration with the default ImageProvider.
