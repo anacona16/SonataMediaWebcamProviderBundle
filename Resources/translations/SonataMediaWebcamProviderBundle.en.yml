@@ -1,7 +1,7 @@
 sonata.media.provider.webcam: Webcam
 sonata.media.provider.webcam.description: Add an image from your webcam
 sonata.media.provider.placeholder: Your browser does not support camera access
+sonata.media.provider.default_image_alt: The screen capture will appear here
 
 form.label.cameras: Available webcams
 form.button.capture: Capture
-form.button.capture_again: Capture again

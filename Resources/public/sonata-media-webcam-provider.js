@@ -1,86 +1,102 @@
-function anacona16SonataMediaWebcamProvider() {
-    if (window.JpegCamera) {
-        var camera; // Initialized at the end
-        var $camera = $('#anacona16-sonata-media-webcam-camera');
+(function() {
+    // The width and height of the captured photo. We will set the
+    // width to the value defined here, but the height will be
+    // calculated based on the aspect ratio of the input stream.
 
-        var take_snapshots = function (count) {
-            var snapshot = camera.capture();
+    var anacona16WebCamProviderWidth = 720;    // We will scale the photo width to this
+    var anacona16WebCamProviderHeight = 0;     // This will be computed based on the input stream
 
-            if (JpegCamera.canvas_supported()) {
-                snapshot.get_canvas(add_snapshot);
-            }
-            else {
-                // <canvas> is not supported in this browser. We'll use anonymous
-                // graphic instead.
-                var image = document.createElement('img');
-                image.src = $camera.data('no-canvas-photo');
+    // |streaming| indicates whether or not we're currently streaming
+    // video from the camera. Obviously, we start at false.
+    var anacona16WebCamProviderStreaming = false;
 
-                setTimeout(function () {
-                    add_snapshot.call(snapshot, image)
-                }, 1);
-            }
+    // The various HTML elements we need to configure or control. These
+    // will be set by the anacona16SonataWebcamProviderStartUp() function.
+    var anacona16WebCamProviderVideo = null;
+    var anacona16WebCamProviderCanvas = null;
+    var anacona16WebCamProviderPhoto = null;
+    var anacona16WebCamProviderStartButton = null;
+    var anacona16WebCamProviderBinaryContentField = null
 
-            if (count > 1) {
-                setTimeout(function () {
-                    take_snapshots(count - 1);
-                }, 500);
-            }
-        };
+    function anacona16SonataWebcamProviderStartUp() {
+        anacona16WebCamProviderVideo = document.getElementById('anacona16-sonata-media-webcam-camera');
+        anacona16WebCamProviderCanvas = document.getElementById('anacona16-sonata-media-webcam-camera-canvas');
+        anacona16WebCamProviderPhoto = document.getElementById('anacona16-sonata-media-webcam-snapshots-photo');
+        anacona16WebCamProviderStartButton = document.getElementById('anacona16-sonata-media-webcam-take-snapshots');
+        anacona16WebCamProviderBinaryContentField = document.querySelector('.anacona16-sonata-media-webcam-provider-binary-content');
 
-        var add_snapshot = function (element) {
-            $(element).data('snapshot', this).addClass('anacona16-sonata-media-webcam-item');
+        if (null === anacona16WebCamProviderVideo) {
+            return;
+        }
 
-            var $container = $('#anacona16-sonata-media-webcam-snapshots').append(element);
-            var camera_ratio = $camera.innerWidth() / $camera.innerHeight();
-
-            var height = $container.height();
-            element.style.height = '' + height + 'px';
-            element.style.width = '' + Math.round(camera_ratio * height) + 'px';
-
-            var scroll = $container[0].scrollWidth - $container.innerWidth();
-
-            $container.animate({
-                scrollLeft: scroll
-            }, 200);
-        };
-
-        var select_snapshot = function () {
-            $('.anacona16-sonata-media-webcam-item').removeClass('anacona16-sonata-media-webcam-selected');
-            var snapshot = $(this).addClass('anacona16-sonata-media-webcam-selected').data('snapshot');
-            snapshot.show();
-            $('#anacona16-sonata-media-webcam-show-stream').show();
-
-            snapshot.get_canvas(function (canvas) {
-                $('.anacona16-sonata-media-webcam-provider').val(canvas.toDataURL('image/jpeg').split(',')[1]);
+        navigator.mediaDevices.getUserMedia({video: true, audio: false})
+            .then(function(stream) {
+                anacona16WebCamProviderVideo.srcObject = stream;
+                anacona16WebCamProviderVideo.play();
+            })
+            .catch(function(err) {
+                console.log("An error occurred: " + err);
             });
-        };
 
-        var show_stream = function () {
-            $(this).hide();
-            $('.anacona16-sonata-media-webcam-item').removeClass('anacona16-sonata-media-webcam-selected');
-            hide_snapshot_controls();
-            camera.show_stream();
-        };
+        anacona16WebCamProviderVideo.addEventListener('canplay', function(ev){
+            if (!anacona16WebCamProviderStreaming) {
+                anacona16WebCamProviderHeight = anacona16WebCamProviderVideo.videoHeight / (anacona16WebCamProviderVideo.videoWidth/anacona16WebCamProviderWidth);
 
-        var hide_snapshot_controls = function () {
-            $('#anacona16-sonata-media-webcam-show-stream').hide();
-        };
+                // Firefox currently has a bug where the height can't be read from
+                // the video, so we will make assumptions if this happens.
 
-        $('#anacona16-sonata-media-webcam-take-snapshots').click(function () {
-            take_snapshots(1);
-        });
+                if (isNaN(anacona16WebCamProviderHeight)) {
+                    anacona16WebCamProviderHeight = anacona16WebCamProviderWidth / (4/3);
+                }
 
-        $('#anacona16-sonata-media-webcam-snapshots').on('click', '.anacona16-sonata-media-webcam-item', select_snapshot);
-        $('#anacona16-sonata-media-webcam-show-stream').click(show_stream);
+                anacona16WebCamProviderVideo.setAttribute('width', anacona16WebCamProviderWidth);
+                anacona16WebCamProviderVideo.setAttribute('height', anacona16WebCamProviderHeight);
+                anacona16WebCamProviderCanvas.setAttribute('width', anacona16WebCamProviderWidth);
+                anacona16WebCamProviderCanvas.setAttribute('height', anacona16WebCamProviderHeight);
+                anacona16WebCamProviderStreaming = true;
+            }
+        }, false);
 
-        var options = {
-            shutter_ogg_url: $camera.data('shutter-ogg-url'),
-            shutter_mp3_url: $camera.data('shutter-mp3-url'),
-            swf_url: $camera.data('shutter-jpeg-camera')
-        };
+        anacona16WebCamProviderStartButton.addEventListener('click', function(ev){
+            anacona16SonataWebcamProviderTakePicture();
+            ev.preventDefault();
+        }, false);
 
-        camera = new JpegCamera('#anacona16-sonata-media-webcam-camera', options).ready(function (info) {
-            $('#anacona16-sonata-media-webcam-take-snapshots').show();
-        });
+        anacona16SonataWebcamProviderClearPhoto();
     }
-}
+
+    // Fill the photo with an indication that none has been
+    // captured.
+    function anacona16SonataWebcamProviderClearPhoto() {
+        var context = anacona16WebCamProviderCanvas.getContext('2d');
+        context.fillStyle = "#AAA";
+        context.fillRect(0, 0, anacona16WebCamProviderCanvas.width, anacona16WebCamProviderCanvas.height);
+
+        var data = anacona16WebCamProviderCanvas.toDataURL('image/png');
+        anacona16WebCamProviderPhoto.setAttribute('src', data);
+    }
+
+    // Capture a photo by fetching the current contents of the video
+    // and drawing it into a canvas, then converting that to a PNG
+    // format data URL. By drawing it on an offscreen canvas and then
+    // drawing that to the screen, we can change its size and/or apply
+    // other changes before drawing it.
+    function anacona16SonataWebcamProviderTakePicture() {
+        var context = anacona16WebCamProviderCanvas.getContext('2d');
+        if (anacona16WebCamProviderWidth && anacona16WebCamProviderHeight) {
+            anacona16WebCamProviderCanvas.width = anacona16WebCamProviderWidth;
+            anacona16WebCamProviderCanvas.height = anacona16WebCamProviderHeight;
+            context.drawImage(anacona16WebCamProviderVideo, 0, 0, anacona16WebCamProviderWidth, anacona16WebCamProviderHeight);
+
+            var data = anacona16WebCamProviderCanvas.toDataURL('image/png');
+            anacona16WebCamProviderPhoto.setAttribute('src', data);
+            anacona16WebCamProviderBinaryContentField.setAttribute('value', data.split(',')[1]);
+        } else {
+            anacona16SonataWebcamProviderClearPhoto();
+        }
+    }
+
+    // Set up our event listener to run the anacona16SonataWebcamProviderStartUp process
+    // once loading is complete.
+    window.addEventListener('load', anacona16SonataWebcamProviderStartUp, false);
+})();

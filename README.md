@@ -1,12 +1,7 @@
 SonataMediaWebcamProvider
 =========================
 
-SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you capture a image from your webcam,
-this bundle use [JpegCamera](https://github.com/amw/jpeg_camera) library.
-
-**Features**
-
-  * Integration with the default ImageProvider.
+SonataMediaWebcamProvider add a new provider to SonataMediaBundle, it lets you capture an image from your webcam.
 
 **Requirements**
 
@@ -18,7 +13,8 @@ Please install each bundle following their instructions.
 **How it works?**
 
 This bundle replaces the binaryContent field.
-Video HTML5 element uses canvas element to get an image using base64 encoding, then a temporary file is created, after, ImageProvider uses and processes it.
+Video HTML5 element uses canvas element to get an image using base64 encoding, then a temporary file is created,
+the ImageProvider uses and processes it.
 
 Installation
 ------------
@@ -37,8 +33,8 @@ in the [Composer documentation](https://getcomposer.org/doc/00-intro.md).
 
 ### Step 2: Enable the Bundle
 
-Then, enable the bundle by adding the following line in the `app/AppKernel.php`
-file of your Symfony application:
+If you are using Symonfy Flex the symfony will be enabled automatically, if not enable the bundle by adding the 
+following line in the `app/AppKernel.php` file of your Symfony application:
 
 ```php
 <?php
@@ -61,8 +57,7 @@ class AppKernel extends Kernel
 
 ### Step 3: Prepare the Web Assets of the Bundle
 
-This bundle includes the ScriptCam JavaScript library. Execute the following
-command to make those assets available in your Symfony application:
+Execute the following command to make assets available in your Symfony application:
 
 ```cli
 php app/console assets:install --symlink
@@ -75,26 +70,7 @@ You need add the assets in your layout e.g. SonataAdminBundle::standard_layout.h
 **JS**
 
 ```html
-<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/swfobject.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/canvas-to-blob.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/jpeg_camera.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bundles/sonatamediawebcamprovider/sonata-media-webcam-provider.min.js') }}" type="text/javascript"></script>
-```
-
-SWFObject and Canvas-to-Blob are stored in separate files so that you don't have to load 
-them again if you already use them in your project. If you want to cut down on HTTP requests 
-then there is a concatenated version you can use.
-
-```html
-<script src="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/jpeg_camera_with_dependencies.min.js') }}" type="text/javascript"></script>
-```
-
-If you want to use HTML5-only version you can load `jpeg_camera_no_flash.min.js`. There is no "with dependencies" version of this file, so you have to remember to also load Canvas-to-Blob. You don't need SWFObject for HTML5.
-
-**CSS**
-
-```html
-<link rel="stylesheet" href="{{ asset('bundles/sonatamediawebcamprovider/sonata-media-webcam-provider.min.css') }}">
 ```
 
 That's it! Now everything is ready to use the Webcam provider.

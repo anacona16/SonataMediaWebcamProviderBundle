@@ -1,26 +1,17 @@
 <div class="row">
-    <div class="col-md-12">
-        <div id="anacona16-sonata-media-webcam-camera" data-shutter-ogg-url="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/shutter.ogg') }}" data-shutter-mp3-url="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/shutter.ogg') }}" data-jpeg-camera="{{ asset('bundles/sonatamediawebcamprovider/jpeg_camera/jpeg_camera.swf') }}" data-no-canvas-photo="{{ asset('bundles/sonatamediawebcamprovider/no_canvas_photo.jpg') }}">
-            <div class="anacona16-sonata-media-webcam-placeholder">
-                {{ 'sonata.media.provider.webcam.placeholder'|trans({}, 'SonataMediaWebcamProviderBundle') }}
-            </div>
-        </div>
+    <div class="col-xs-12">
+        <video id="anacona16-sonata-media-webcam-camera" style="display: inline-block; width: 100%;">{{ 'sonata.media.provider.webcam.placeholder'|trans({}, 'SonataMediaWebcamProviderBundle') }}</video>
+        <canvas id="anacona16-sonata-media-webcam-camera-canvas" style="display: none; visibility: hidden;">
+        </canvas>
 
         <hr>
 
         <button type="button" id="anacona16-sonata-media-webcam-take-snapshots" class="btn btn-default"><i class="fa fa-camera"></i> {{ 'form.button.capture'|trans({}, 'SonataMediaWebcamProviderBundle') }}</button>
-        <button type="button" id="anacona16-sonata-media-webcam-show-stream" class="btn btn-default"><i class="fa fa-camera"></i> {{ 'form.button.capture_again'|trans({}, 'SonataMediaWebcamProviderBundle') }}</button><br>
     </div>
 
-    <div class="col-md-12" style="margin-top: 10px;">
-        <div id="anacona16-sonata-media-webcam-snapshots"></div>
+    <div class="col-xs-12" style="margin-top: 10px;">
+        <div id="anacona16-sonata-media-webcam-snapshots" style="padding: 3px; border: 1px solid #aaa;">
+            <img id="anacona16-sonata-media-webcam-snapshots-photo" alt="{{ 'sonata.media.provider.default_image_alt'|trans({}, 'SonataMediaWebcamProviderBundle') }}" width="100%">
+        </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    (function ($) {
-        $(function () {
-            anacona16SonataMediaWebcamProvider();
-        });
-    })(jQuery);
-</script>

@@ -5,27 +5,28 @@ namespace Anacona16\Bundle\SonataMediaWebcamProviderBundle\SonataMedia\Provider;
 use Gaufrette\Filesystem;
 use Imagine\Image\ImagineInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Model\Metadata;
 use Sonata\MediaBundle\CDN\CDNInterface;
 use Sonata\MediaBundle\Generator\GeneratorInterface;
 use Sonata\MediaBundle\Metadata\MetadataBuilderInterface;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\MediaBundle\Provider\ImageProvider;
+use Sonata\MediaBundle\Provider\Metadata;
 use Sonata\MediaBundle\Thumbnail\ThumbnailInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Twig\Environment;
 
 class WebcamProvider extends ImageProvider
 {
     /**
-     * @var ContainerInterface
+     * @var Environment
      */
-    private $container;
+    private $twig;
 
     /**
      * {@inheritdoc}
@@ -40,11 +41,11 @@ class WebcamProvider extends ImageProvider
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param Environment $twig
      */
-    public function setContainer(ContainerInterface $container)
+    public function setTwig(Environment $twig)
     {
-        $this->container = $container;
+        $this->twig = $twig;
     }
 
     /**
@@ -66,15 +67,16 @@ class WebcamProvider extends ImageProvider
             $templatePath = '@SonataMediaWebcamProvider/webcam.html.twig';
         }
 
-        $formMapper->add('binaryContent', TextareaType::class, array(
+        $formMapper->add('binaryContent', TextType::class, array(
             'constraints' => array(
                 new NotBlank(),
                 new NotNull(),
             ),
             'label' => false,
-            'help' => $this->container->get('twig')->render($templatePath),
+            'help' => $this->twig->render($templatePath),
+            'help_html' => true,
             'attr' => array(
-                'class' => 'anacona16-sonata-media-webcam-provider',
+                'class' => 'anacona16-sonata-media-webcam-provider-binary-content',
                 'style' => 'display: none; visibility: hidden;',
             ),
         ));
@@ -93,7 +95,7 @@ class WebcamProvider extends ImageProvider
         $media->setProviderName('sonata.media.provider.image');
 
         if (!$content instanceof UploadedFile) {
-            $fileName = $this->generateMediaUniqId($media).'.jpg';
+            $fileName = $this->generateMediaUniqId($media).'.png';
             $filePath = sys_get_temp_dir();
             $fileFullPath = $filePath.'/'.$fileName;
 
