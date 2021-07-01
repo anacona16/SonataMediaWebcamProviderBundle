@@ -99,4 +99,13 @@
     // Set up our event listener to run the anacona16SonataWebcamProviderStartUp process
     // once loading is complete.
     window.addEventListener('load', anacona16SonataWebcamProviderStartUp, false);
-})();
+
+    // This is needed because some times the media form is opened in a modal.
+    $(function () {
+        $(window).ajaxSuccess(function (event, xhr, settings) {
+            if (settings.url.includes('provider=sonata.media.provider.webcam')) {
+                anacona16SonataWebcamProviderStartUp();
+            }
+        });
+    });
+})(jQuery);
